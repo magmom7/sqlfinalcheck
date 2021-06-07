@@ -92,7 +92,7 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>BEGIN</strong>
             <strong>UPDATE</strong> emp06 <strong>SET</strong> sal = sal * 1.2 <strong>WHERE</strong> job = v_job;
             <strong>END</strong>;
-            /
+            
 
             <strong>EXECUTE</strong> sal_update('SALESMAN');
             <strong>SELECT * FROM</strong> emp06;
@@ -102,7 +102,7 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>BEGIN</strong>
             <strong>UPDATE</strong>emp06 <strong>SET</strong> job = 'MANAGER' <strong>WHERE</strong> job = 'SALESMAN';
             <strong>END</strong>;
-            /
+            
 
             <strong>EXECUTE</strong>job_update;
             <strong>SELECT * FROM</strong>emp06;
