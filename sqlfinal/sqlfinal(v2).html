@@ -115,9 +115,9 @@ details {padding : 1rem; white-space: pre-wrap;}
 
 <div class=question id=Q3>
       <h4>3.선영이는 네네치킨 두 지점을 운영하고 있다. 두 지점의 매출을 함께 관리하기 위해 두 가게의 매출 테이블을 합치려고 한다. 아래의 각 테이블을 merge를 이용하여 NENE_total에 합쳐라.</h4>
-      <h4>DROP TABLE NENE01;
-            DROP TABLE NENE02;
-            DROP TABLE NENE_total;
+      <h4>DROP TABLE NENE01;<br>
+            DROP TABLE NENE02;<br>
+            DROP TABLE NENE_total;<br>
             
             CREATE TABLE NENE01(
                   주문메뉴 VARCHAR(30),
@@ -137,22 +137,22 @@ details {padding : 1rem; white-space: pre-wrap;}
                   금액 NUMBER(6)
             );
       </h4>
-      <h4>INSERT all
-            INTO NENE01 VALUES('청양마요', 4, 72000)
-            INTO NENE01 VALUES('매콤치즈스노윙', 2, 34000)
-            INTO NENE01 VALUES('양념', 1, 16000)
-            INTO NENE01 VALUES('크리미어니언', 1, 17000)
-            INTO NENE01 VALUES('핫블링', 1, 17000)
-            INTO NENE01 VALUES('후라이드', 1, 15000)
-            INTO NENE01 VALUES('파닭', 1, 17000)
-            INTO NENE02 VALUES('청양마요', 2, 36000)
-            INTO NENE02 VALUES('매콤치즈스노윙', 2, 34000)
-            INTO NENE02 VALUES('양념', 3, 48000)
-            INTO NENE02 VALUES('크리미어니언', 2, 34000)
-            INTO NENE02 VALUES('핫블링', 3, 51000)
-            INTO NENE02 VALUES('후라이드', 1, 15000)
-            INTO NENE02 VALUES('파닭', 2, 34000)
-      SELECT * FROM dual;
+      <h4>INSERT all<br>
+            INTO NENE01 VALUES('청양마요', 4, 72000)<br>
+            INTO NENE01 VALUES('매콤치즈스노윙', 2, 34000)<br>
+            INTO NENE01 VALUES('양념', 1, 16000)<br>
+            INTO NENE01 VALUES('크리미어니언', 1, 17000)<br>
+            INTO NENE01 VALUES('핫블링', 1, 17000)<br>
+            INTO NENE01 VALUES('후라이드', 1, 15000)<br>
+            INTO NENE01 VALUES('파닭', 1, 17000)<br>
+            INTO NENE02 VALUES('청양마요', 2, 36000)<br>
+            INTO NENE02 VALUES('매콤치즈스노윙', 2, 34000)<br>
+            INTO NENE02 VALUES('양념', 3, 48000)<br>
+            INTO NENE02 VALUES('크리미어니언', 2, 34000)<br>
+            INTO NENE02 VALUES('핫블링', 3, 51000)<br>
+            INTO NENE02 VALUES('후라이드', 1, 15000)<br>
+            INTO NENE02 VALUES('파닭', 2, 34000)<br>
+      SELECT * FROM dual;<br>
       
       </h4>
       
