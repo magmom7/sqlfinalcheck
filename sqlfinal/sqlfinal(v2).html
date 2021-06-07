@@ -1,0 +1,277 @@
+<html>
+<header>
+      <div data-spy="affix" data-offset-top="30" class="header-affix affix-item" ">
+          <audio autoplay controls> <source src="bgm.mp3" type="audio/mp3"> </audio>
+      </div>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL 점검</title>
+<style>
+      h1 { text-align: center; }
+      h3 { text-align: center; }
+      p { text-align: center;}
+</style>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+<style>
+body {font-family: 'Nanum Gothic', sans-serif;}
+h1 {margin : 1rem;}
+details {padding : 1rem; white-space: pre-wrap;}
+.question {margin : 2rem; padding : 1rem; border: 1px solid gray;}
+
+</style>
+</header>
+
+<body>
+
+<h1>[SQL 점검]</h1>
+<h3>이성규,류선영,정주영,손유진</h3>
+
+<div class='question' id='Q1'>
+
+      <h4>1. 각 부서별로 가장 높은 salary를 갖는 직원의 <u>부서번호, 직원이름, 월급과 rownum</u>를 부서순서대로 호출하라
+      </h4>
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+
+    
+        </form>       
+      <details>
+            <summary>모범 답안</summary>
+            <strong>SELECT</strong> rownum, deptno, ename, sal
+            <strong>FROM</strong>(
+            <strong>SELECT</strong> deptno, ename, sal
+            <strong>FROM</strong> emp
+            <strong>WHERE</strong> (deptno, sal) IN  (
+            <strong>SELECT</strong> deptno, max(sal)
+            <strong>FROM</strong> emp
+            <strong>GROUP BY</strong> deptno)
+            <strong>ORDER BY </strong>deptno <strong>ASC</strong>);
+ 
+      </details>
+
+</div>
+
+
+<div class=question id=Q2>
+      <h4>2.  (emp 테이블을 복제하여 emp06 table 생성 후 실행) 
+            이 회사의 매출이 최근 sns마케팅을 이용하여 매출이 50%이상 증가하였다.
+            이에 따라 매출 인상에 큰 영향을 끼친 <u>영업사원들(SALESMAN)에게 급여(SAL)를 20%인상</u> 시키기로 했고, 
+            그 후 그 사원들 직책을 <u>매니저(MANAGER)></u>로 승진시키기로 했다.
+            이 작업들을 프로시저를 이용해서 문제를 푸시오.
+            </h4>
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+
+     
+        </form>    
+        <details>
+            <summary>모범 답안</summary>
+
+            --실행 전 필수
+            <strong>SET</strong>serveroutput <strong>ON</strong>
+
+            <strong>DROP TABLE</strong> emp06;
+
+            <strong>CREATE TABLE</strong> emp06  <strong>AS SELECT * FROM</strong>  emp;
+            <strong>DESC</strong> emp06;
+            <strong>SELECT * FROM</strong> emp06;
+
+            <strong>SELECT</strong> job, sal <strong>FROM</strong> emp06 <strong>WHERE</strong> job = 'SALESMAN';
+
+            <strong>CREATE OR REPLACE PROCEDURE</strong> sal_update(v_job emp06.job%TYPE)
+            <strong>IS</strong>
+            <strong>BEGIN</strong>
+            <strong>UPDATE</strong> emp06 <strong>SET</strong> sal = sal * 1.2 <strong>WHERE</strong> job = v_job;
+            <strong>END</strong>;
+            /
+
+            <strong>EXECUTE</strong> sal_update('SALESMAN');
+            <strong>SELECT * FROM</strong> emp06;
+            --------------------------------------------------------------
+            <strong>CREATE OR REPLACE PROCEDURE</strong> job_update
+            <strong>IS</strong>
+            <strong>BEGIN</strong>
+            <strong>UPDATE</strong>emp06 <strong>SET</strong> job = 'MANAGER' <strong>WHERE</strong> job = 'SALESMAN';
+            <strong>END</strong>;
+            /
+
+            <strong>EXECUTE</strong>job_update;
+            <strong>SELECT * FROM</strong>emp06;
+
+
+      </details>
+
+</div>
+
+
+<div class=question id=Q3>
+      <h4>3.선영이는 네네치킨 두 지점을 운영하고 있다. 두 지점의 매출을 함께 관리하기 위해 두 가게의 매출 테이블을 합치려고 한다. 아래의 각 테이블을 merge를 이용하여 NENE_total에 합쳐라.</h4>
+      <h4>DROP TABLE NENE01;
+            DROP TABLE NENE02;
+            DROP TABLE NENE_total;
+            
+            CREATE TABLE NENE01(
+                  주문메뉴 VARCHAR(30),
+                  수량 NUMBER(3),
+                  금액 NUMBER(6)
+            );
+            CREATE TABLE NENE02(
+                  주문메뉴 VARCHAR(30),
+                  수량 NUMBER(3),
+                  금액 NUMBER(6)
+            );
+            CREATE TABLE NENE_total( 
+                  주문메뉴 VARCHAR(30),
+                  수량 NUMBER(3),
+                  금액 NUMBER(6)
+            );
+      </h4>
+      <h4>INSERT all
+            INTO NENE01 VALUES('청양마요', 4, 72000)
+            INTO NENE01 VALUES('매콤치즈스노윙', 2, 34000)
+            INTO NENE01 VALUES('양념', 1, 16000)
+            INTO NENE01 VALUES('크리미어니언', 1, 17000)
+            INTO NENE01 VALUES('핫블링', 1, 17000)
+            INTO NENE01 VALUES('후라이드', 1, 15000)
+            INTO NENE01 VALUES('파닭', 1, 17000)
+            INTO NENE02 VALUES('청양마요', 2, 36000)
+            INTO NENE02 VALUES('매콤치즈스노윙', 2, 34000)
+            INTO NENE02 VALUES('양념', 3, 48000)
+            INTO NENE02 VALUES('크리미어니언', 2, 34000)
+            INTO NENE02 VALUES('핫블링', 3, 51000)
+            INTO NENE02 VALUES('후라이드', 1, 15000)
+            INTO NENE02 VALUES('파닭', 2, 34000)
+      SELECT * FROM dual;
+      
+      </h4>
+      
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+       
+        </form>    
+      <details>
+            <summary>모범 답안</summary>
+            <Strong>MERGE INTO</Strong>NENE_total t 
+            <Strong>USING</Strong>NENE01 N1 
+            <strong>ON</strong> (t.주문메뉴 = N1.주문메뉴)
+            <strong>WHEN</strong> MATCHED  <strong>THEN </strong>
+            <strong>UPDATE SET</strong> t.수량 = t.수량 + N1.수량,
+                            t.금액 = t.금액 + N1.금액
+            <strong>WHEN NOT</strong> MATCHED THEN
+                <strong>INSERT VALUES</strong>(N1.주문메뉴, N1.수량, N1.금액); 
+            
+            
+            <strong>>MERGE INTO</strong>NENE_total t 
+            <strong>USING</strong>NENE02 N2
+            <strong>ON</strong> (t.주문메뉴 = N2.주문메뉴)
+            <strong>WHEN</strong> MATCHED <strong>THEN</strong>
+                <strong>UPDATE SET</strong> t.수량 = t.수량 + N2.수량,
+                            t.금액 = t.금액 + N2.금액
+            <strong>WHEN NOT</strong>MATCHED <strong>THEN</strong>
+                <strong>NSERT VALUES</strong> (N2.주문메뉴, N2.수량, N2.금액); 
+
+
+      </details>
+
+</div>
+
+
+<div class=question id=Q4>
+      <h4>4. 우리가 배운 SQL은 크게 <u>DDL,DML,DCL</u> 로 분류가 되는데 이중 DCL은 대표적으로 데이터 제어를 사용하는 언어이며 </h4>
+      <h4>종류로는 <u>COMMIT,ROLLBACK,GRANT,REVOKE</u> 가 있다 그렇다면 <b>DDL과 DML은 무엇을 하는 언어인지 정의하고 종류를 다쓰시오</b></h4>
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 답을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+     
+        </form>    
+      <details>
+            <summary>모범 답안</summary>
+            <strong>DDL</strong>은 대표적으로 TABLE,VIEW,INDEX,SCHEMA 를 <u>정의하거나 변경 삭제할 때</u> 사용하는 언어이다.
+            종류로는 <strong>CREATE, ALTER, DROP</strong> 이 있다.
+            <strong>DML</strong>은 대표적으로 응용프로그램이나 질의어를 통하여 <u>저장된 데이터를 실질적으로 처리하는데</u> 사용하는 언어이다.
+            종류로는 <strong>SELECT, INSERT, DELETE, UPDATE</strong> 이 있다.
+      </details>
+
+</div>
+
+
+<div class=question id=Q5>
+      <h4>5.성규는 강사님에게 배운것을 응용하기위해 기존의 테이블에 <u>새로운 값</u>을 추가하려고한다.
+      <h4>이때 성규는 <u>ADD</u>를 해야할지 <u>INSERT INTO</u>를 해야할지 고민을 하게 되는데 성규는 <b>어떠한 방법을 쓰는것이 맞는지 설명하시오.</b></h4>
+      <h4>(단 둘중에 하나를 쓰게되면 <u>그걸 써야되는 이유와 나머지 하나는 왜 안되는지</u> <b>논리적으로 설명하시오</b>)</u></h4>
+
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 답을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+       
+        </form>    
+      <details>
+            <summary>모범 답안</summary>
+            <strong>INSERT INTO</strong>는 <u>튜플(값)등을 삽입</u>할때 사용하고
+            <strong>ADD</strong> 는 <strong>ALTER</strong>와 사용 <u>속성을 추가</u> 할때 사용하기에 
+            성규는 <strong>INSERT INTO</strong>를 사용하여 값을 추가하는게 맞다. 
+            만약에 속성을 추가 하고싶으면 <strong>ALTER TABLE ADD</strong>를 사용 해야한다.
+      </details>
+
+</div>
+
+<div class=question id=Q6>
+      <h4>보너스 문제. 많은 기업에서 <u>ORACLE DB</u>를 사용하는 경우가 많습니다. 그렇다면 왜? 많은 기업에서 ORACLE DB를 쓰는지 한번 생각해보시고 정리해보세요 ㅎ
+      <form action="채점을 해보자">
+            <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
+            onblur="this.placeholder='진짜 입력해보세요 채점해 줄게영'"></textarea>
+            <br>
+            <br>      
+            <input type="onsubmit" value="제출" class="btn btn-success" id="button1" onclick="button1_click();"  />
+        
+        </form>    
+      <details>
+            <summary>모범 답안</summary>
+           답은 각자의 몫입니다. 구글링을 하시던 <u> 각자가 느낀게 답이라 생각됩니다.</u>
+      </details>
+
+</div>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<ul class="pager">
+<li>
+            <A href="https://github.com/magmom7"><IMG src="lee.jpg" width="300" height="300" >
+            <A href="https://github.com/tjsdud594"><IMG src="ryu.png" width="300" height="300" >
+            <A href="https://github.com/dilatata"><IMG src="chung.png" width="300" height="300" > 
+            <A href="https://github.com/sonyujin95"><IMG src="son.png" width="300" height="300" > 
+            </A>     
+</li>
+</ul>
+<p style="font-size: 25px; color:blue">사진을 누르시면 깃허브 주소로 갈 수 있습니당!</p>
+<script>
+      function button1_click() {
+            alert("연결 안했쥬 속았쥬 모범 답안을 눌러서 비교 해보세여 ㅎㅎ ");
+      }
+</script>
+</body>
+</html>
