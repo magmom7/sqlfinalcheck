@@ -62,7 +62,7 @@ details {padding : 1rem; white-space: pre-wrap;}
             이 회사의 매출이 최근 sns마케팅을 이용하여 매출이 50%이상 증가하였다.
             이에 따라 매출 인상에 큰 영향을 끼친 <u>영업사원들(SALESMAN)에게 급여(SAL)를 20%인상</u> 시키기로 했고, 
             그 후 그 사원들 직책을 <u>매니저(MANAGER)></u>로 승진시키기로 했다.
-            이 작업들을 프로시저를 이용해서 문제를 푸시오.
+            이 작업들을 프로시저(job_update)를 이용해서 문제를 푸시오.
             </h4>
       <form action="채점을 해보자">
             <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
@@ -124,11 +124,13 @@ details {padding : 1rem; white-space: pre-wrap;}
                   수량 NUMBER(3),
                   금액 NUMBER(6)
             );
+            <br>
             CREATE TABLE NENE02(
                   주문메뉴 VARCHAR(30),
                   수량 NUMBER(3),
                   금액 NUMBER(6)
             );
+            <br>
             CREATE TABLE NENE_total( 
                   주문메뉴 VARCHAR(30),
                   수량 NUMBER(3),
