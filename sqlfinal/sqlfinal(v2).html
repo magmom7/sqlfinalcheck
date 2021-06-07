@@ -51,7 +51,12 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>FROM</strong> emp
             <strong>GROUP BY</strong> deptno)
             <strong>ORDER BY </strong>deptno <strong>ASC</strong>);
- 
+            
+            ROWNUM    DEPTNO ENAME                       SAL
+            ---------- ---------- -------------------- ----------
+                    1         10 KING                       5000
+                    2         20 FORD                       3000
+                    3         30 BLAKE                      2850
       </details>
 
 </div>
@@ -92,7 +97,7 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>BEGIN</strong>
             <strong>UPDATE</strong> emp06 <strong>SET</strong> sal = sal * 1.2 <strong>WHERE</strong> job = v_job;
             <strong>END</strong>;
-            
+            /
 
             <strong>EXECUTE</strong> sal_update('SALESMAN');
             <strong>SELECT * FROM</strong> emp06;
@@ -102,12 +107,41 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>BEGIN</strong>
             <strong>UPDATE</strong>emp06 <strong>SET</strong> job = 'MANAGER' <strong>WHERE</strong> job = 'SALESMAN';
             <strong>END</strong>;
-            
+            /
 
             <strong>EXECUTE</strong>job_update;
             <strong>SELECT * FROM</strong>emp06;
 
+            EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO
+            ---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------
+                  7369 SMITH                CLERK                    7902 80/12/17        800                    20
+                  7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30
+                  7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30
+                  7566 JONES                MANAGER                  7839 81/04/02       2975                    20
+                  7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30
+                  7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30
+                  7782 CLARK                MANAGER                  7839 81/06/09       2450                    10
+                  7839 KING                 PRESIDENT                     81/11/17       5000                    10
+                  7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30
+                  7900 JAMES                CLERK                    7698 81/12/03        950                    30
+                  7902 FORD                 ANALYST                  7566 81/12/03       3000                    20
+                  7934 MILLER               CLERK                    7782 82/01/23       1300                    10
 
+
+출력후->    EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO
+            ---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------
+                  7369 SMITH                CLERK                    7902 80/12/17        800                    20
+                  7499 ALLEN                MANAGER                  7698 81/02/20       1920        300         30
+                  7521 WARD                 MANAGER                  7698 81/02/22       1500        500         30
+                  7566 JONES                MANAGER                  7839 81/04/02       2975                    20
+                  7654 MARTIN               MANAGER                  7698 81/09/28       1500       1400         30
+                  7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30
+                  7782 CLARK                MANAGER                  7839 81/06/09       2450                    10
+                  7839 KING                 PRESIDENT                     81/11/17       5000                    10
+                  7844 TURNER               MANAGER                  7698 81/09/08       1800          0         30
+                  7900 JAMES                CLERK                    7698 81/12/03        950                    30
+                  7902 FORD                 ANALYST                  7566 81/12/03       3000                    20
+                  7934 MILLER               CLERK                    7782 82/01/23       1300                    10
       </details>
 
 </div>
@@ -115,46 +149,45 @@ details {padding : 1rem; white-space: pre-wrap;}
 
 <div class=question id=Q3>
       <h4>3.선영이는 네네치킨 두 지점을 운영하고 있다. 두 지점의 매출을 함께 관리하기 위해 두 가게의 매출 테이블을 합치려고 한다. 아래의 각 테이블을 merge를 이용하여 NENE_total에 합쳐라.</h4>
-      <h4>DROP TABLE NENE01;<br>
+      <h4>  DROP TABLE NENE01;<br>
             DROP TABLE NENE02;<br>
             DROP TABLE NENE_total;<br>
             
-            CREATE TABLE NENE01(
-                  주문메뉴 VARCHAR(30),
-                  수량 NUMBER(3),
-                  금액 NUMBER(6)
-            );
+            CREATE TABLE NENE01(<br>
+            &nbsp;&nbsp;주문메뉴 VARCHAR(30),<br>
+            &nbsp;&nbsp;수량 NUMBER(3),<br>
+            &nbsp;&nbsp;금액 NUMBER(6)<br>
+            );<br>
             <br>
-            CREATE TABLE NENE02(
-                  주문메뉴 VARCHAR(30),
-                  수량 NUMBER(3),
-                  금액 NUMBER(6)
-            );
+            CREATE TABLE NENE02(<br>
+            &nbsp;&nbsp;주문메뉴 VARCHAR(30),<br>
+            &nbsp;&nbsp;수량 NUMBER(3),<br>
+            &nbsp;&nbsp;금액 NUMBER(6)<br>
+            );<br>
             <br>
-            CREATE TABLE NENE_total( 
-                  주문메뉴 VARCHAR(30),
-                  수량 NUMBER(3),
-                  금액 NUMBER(6)
+            CREATE TABLE NENE_total(<br> 
+            &nbsp;&nbsp;주문메뉴 VARCHAR(30),<br>
+            &nbsp;&nbsp;수량 NUMBER(3),<br>
+            &nbsp;&nbsp;금액 NUMBER(6)<br>
             );
       </h4>
       <h4>INSERT all<br>
-            INTO NENE01 VALUES('청양마요', 4, 72000)<br>
-            INTO NENE01 VALUES('매콤치즈스노윙', 2, 34000)<br>
-            INTO NENE01 VALUES('양념', 1, 16000)<br>
-            INTO NENE01 VALUES('크리미어니언', 1, 17000)<br>
-            INTO NENE01 VALUES('핫블링', 1, 17000)<br>
-            INTO NENE01 VALUES('후라이드', 1, 15000)<br>
-            INTO NENE01 VALUES('파닭', 1, 17000)<br>
-            INTO NENE02 VALUES('청양마요', 2, 36000)<br>
-            INTO NENE02 VALUES('매콤치즈스노윙', 2, 34000)<br>
-            INTO NENE02 VALUES('양념', 3, 48000)<br>
-            INTO NENE02 VALUES('크리미어니언', 2, 34000)<br>
-            INTO NENE02 VALUES('핫블링', 3, 51000)<br>
-            INTO NENE02 VALUES('후라이드', 1, 15000)<br>
-            INTO NENE02 VALUES('파닭', 2, 34000)<br>
-      SELECT * FROM dual;<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('청양마요', 4, 72000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('매콤치즈스노윙', 2, 34000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('양념', 1, 16000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('크리미어니언', 1, 17000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('핫블링', 1, 17000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('후라이드', 1, 15000)<br>
+            &nbsp;&nbsp;INTO NENE01 VALUES('파닭', 1, 17000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('청양마요', 2, 36000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('매콤치즈스노윙', 2, 34000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('양념', 3, 48000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('크리미어니언', 2, 34000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('핫블링', 3, 51000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('후라이드', 1, 15000)<br>
+            &nbsp;&nbsp;INTO NENE02 VALUES('파닭', 2, 34000)<br>
+      SELECT * FROM dual;</h4>
       
-      </h4>
       
       <form action="채점을 해보자">
             <textarea cols="30" rows="5" placeholder="여기에 sql문을 입력후 제출을 눌러주세요 "onfocus="this.placeholder=''"
@@ -185,7 +218,15 @@ details {padding : 1rem; white-space: pre-wrap;}
             <strong>WHEN NOT</strong>MATCHED <strong>THEN</strong>
                 <strong>NSERT VALUES</strong> (N2.주문메뉴, N2.수량, N2.금액); 
 
-
+            주문메뉴                                                           수량       금액
+            ------------------------------------------------------------ ---------- ----------
+            후라이드                                                              2      30000
+            매콤치즈스노윙                                                        4      68000
+            파닭                                                                  3      51000
+            양념                                                                  4      64000
+            크리미어니언                                                          3      51000
+            핫블링                                                                4      68000
+            청양마요                                                              6     108000      
       </details>
 
 </div>
